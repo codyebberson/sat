@@ -12,7 +12,7 @@ LINKFLAGS = -Wl,-O1 -Wl,--discard-all -Wl,--no-undefined
 
 all: pltest.exe
 
-pltest.exe: pl.o pltest.o
+pltest.exe: pl.o dpll.o pltest.o
 	$(LINK) $(LINKFLAGS) -o $@ $^
 
 %.o: %.c

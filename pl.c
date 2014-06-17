@@ -109,7 +109,7 @@ static void parse_disjunction(char *str, PL_DISJUNCTION *result)
 {
     result->count = count_tokens(str, 'v');
     result->literals = calloc(result->count, sizeof(PL_LITERAL));
-    
+
     char *end_str = NULL;
     char* token = strtok_r(str, "v", &end_str);
     uint32_t index = 0;
@@ -132,7 +132,7 @@ PL_CONJUNCTION* pl_parse(char *str)
     PL_CONJUNCTION* result = calloc(1, sizeof(PL_CONJUNCTION));
     result->count = count_tokens(str, '^');
     result->disjunctions = calloc(result->count, sizeof(PL_DISJUNCTION));
-    
+
     char *end_str = NULL;
     char* token = strtok_r(str, "^", &end_str);
     uint32_t index = 0;
@@ -158,15 +158,15 @@ PL_CONJUNCTION* pl_parse(char *str)
 static uint8_t lit_satisfied(PL_LITERAL *lit, PL_INTERPRETATION *inter)
 {
     uint8_t result = inter->dictionary[(uint8_t)lit->variable];
-    
+
     if (result == PL_UNDEFINED) {
         return PL_UNDEFINED;
     }
-    
+
     if (lit->negated) {
         return result == PL_TRUE ? PL_FALSE : PL_TRUE;
     }
-    
+
     return result;
 }
 
@@ -180,17 +180,23 @@ static uint8_t lit_satisfied(PL_LITERAL *lit, PL_INTERPRETATION *inter)
  *         PL_FALSE if not satisfied;
  *         PL_UNDEFINED if unsolvable.
  */
-static uint8_t disj_satisfied(PL_DISJUNCTION* disj, PL_INTERPRETATION *inter)
+uint8_t pl_is_disjunction_satisfied(
+        PL_DISJUNCTION* disj,
+        PL_INTERPRETATION *inter)
 {
+    uint32_t undefined = 0;
     for (uint32_t i = 0; i < disj->count; i++) {
         PL_LITERAL *literal = &disj->literals[i];
         uint8_t result = lit_satisfied(literal, inter);
-        if (result != PL_FALSE) {
-            return result;
+        if (result == PL_TRUE) {
+            return PL_TRUE;
+        }
+        if (result == PL_UNDEFINED) {
+            undefined = 1;
         }
     }
-    
-    return PL_FALSE;
+
+    return undefined ? PL_UNDEFINED : PL_FALSE;
 }
 
 
@@ -207,12 +213,12 @@ uint8_t pl_is_satisfied(PL_CONJUNCTION *conj, PL_INTERPRETATION *inter)
 {
     for (uint32_t i = 0; i < conj->count; i++) {
         PL_DISJUNCTION *disjunction = &conj->disjunctions[i];
-        uint8_t result = disj_satisfied(disjunction, inter);
+        uint8_t result = pl_is_disjunction_satisfied(disjunction, inter);
         if (result != PL_TRUE) {
             return result;
         }
     }
-    
+
     return PL_TRUE;
 }
 
@@ -222,25 +228,28 @@ uint8_t pl_is_satisfied(PL_CONJUNCTION *conj, PL_INTERPRETATION *inter)
  * All used variables are set to PL_FALSE.
  * All unused variables are set to PL_UNDEFINED.
  *
- * @param conj The conjunction.
+ * @param conjunction The conjunction.
+ * @param default_value The default value for all used variables.
  * @return A default interpretation.
  */
-static PL_INTERPRETATION* create_interpretation(PL_CONJUNCTION *conjunction)
+PL_INTERPRETATION* pl_create_interpretation(
+        PL_CONJUNCTION *conjunction,
+        uint8_t default_value)
 {
     PL_INTERPRETATION* result = calloc(1, sizeof(PL_INTERPRETATION));
 
     for (uint32_t i = 0; i < PL_MAX_VARS; i++) {
-        result->dictionary[i] = PL_UNDEFINED;
+        result->dictionary[i] = PL_UNUSED;
     }
-    
+
     for (uint32_t i = 0; i < conjunction->count; i++) {
         PL_DISJUNCTION* disjunction = &conjunction->disjunctions[i];
         for (uint32_t j = 0; j < disjunction->count; j++) {
             PL_LITERAL* literal = &disjunction->literals[j];
-            result->dictionary[(uint8_t)literal->variable] = PL_FALSE;
+            result->dictionary[(uint8_t)literal->variable] = default_value;
         }
     }
-    
+
     return result;
 }
 
@@ -258,7 +267,7 @@ void pl_print_interpretation(PL_INTERPRETATION *inter)
     }
 
     for (uint32_t i = 0; i < PL_MAX_VARS; i++) {
-        if (inter->dictionary[i] == PL_UNDEFINED) {
+        if (inter->dictionary[i] == PL_UNUSED) {
             continue;
         }
         if (is_letter(i)) {
@@ -267,9 +276,13 @@ void pl_print_interpretation(PL_INTERPRETATION *inter)
             case PL_FALSE:
                 printf("False\n");
                 break;
-                
+
             case PL_TRUE:
                 printf("True\n");
+                break;
+
+            case PL_UNDEFINED:
+                printf("Undefined\n");
                 break;
             }
         }
@@ -290,7 +303,8 @@ void pl_print_interpretation(PL_INTERPRETATION *inter)
 static uint8_t step_brute_force(PL_CONJUNCTION *conj, PL_INTERPRETATION *inter)
 {
     for (uint32_t i = 0; i < PL_MAX_VARS; i++) {
-        if (inter->dictionary[i] == PL_UNDEFINED) {
+        if (inter->dictionary[i] == PL_UNDEFINED ||
+                inter->dictionary[i] == PL_UNUSED) {
             // Unused variable -> ignore
             continue;
         }
@@ -315,7 +329,7 @@ static uint8_t step_brute_force(PL_CONJUNCTION *conj, PL_INTERPRETATION *inter)
  */
 PL_INTERPRETATION* pl_brute_force(PL_CONJUNCTION *conjunction)
 {
-    PL_INTERPRETATION* inter = create_interpretation(conjunction);
+    PL_INTERPRETATION* inter = pl_create_interpretation(conjunction, PL_FALSE);
     while (pl_is_satisfied(conjunction, inter) != PL_TRUE) {
         if (step_brute_force(conjunction, inter)) {
             // We exhausted all possible interpretations.
