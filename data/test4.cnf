@@ -1,0 +1,131 @@
+(~P v ~K v L) ^
+(C v ~K) ^
+(F v ~K v ~B) ^
+(~F v B v ~D) ^
+(N v Z v ~W) ^
+(E v J) ^
+(~U v X v R) ^
+(E v ~M v D) ^
+(~X) ^
+(~Q v ~N v ~B) ^
+(N v M v P) ^
+(~H v C v V) ^
+(C v A) ^
+(B v F) ^
+(Y v X v D) ^
+(~K v I v S) ^
+(L v Q v B) ^
+(E v ~S v ~N) ^
+(~B v W v ~D) ^
+(J v ~R v ~F) ^
+(~Y v R) ^
+(N v M v P) ^
+(~H v C) ^
+(C v A) ^
+(B v F) ^
+(Y v X v D) ^
+(~K v I v S) ^
+(~X) ^
+(L v Q v B) ^
+(Y v X v D) ^
+(~K v I v S) ^
+(L v Q v B) ^
+(E v ~S v ~N) ^
+(~B v W v ~D) ^
+(J v ~R v ~F) ^
+(~Y v R) ^
+(~X) ^
+(~H v N v ~P) ^
+(O v F v P) ^
+(~X) ^
+(~K v ~J v N) ^
+(B v N v M) ^
+(~J v ~G v V) ^
+(U v X v ~O) ^
+(~Z v G v E) ^
+(Y v X v D) ^
+(~K v I v S) ^
+(B) ^
+(E v ~S v ~N) ^
+(Z v G v ~N) ^
+(Y v X v D) ^
+(~K v I v S) ^
+(L v Q v B) ^
+(E v ~S v ~N) ^ 
+(~X) ^
+(~S v W v ~Z) ^
+(~E v ~X v Q) ^
+(T v S v X) ^
+(V v P v ~W) ^
+(~D v T v ~H) ^
+(~P v L v ~K) ^
+(~E v ~Q v ~E) ^
+(C v J v U) ^
+(~B v J v X) ^
+(~K v ~O v ~W) ^
+(~O v A v Y) ^
+(J v E v ~Y) ^
+(V v ~C v S) ^
+(~C v W v ~D) ^
+(~S v T v T) ^
+(~J v ~J v T) ^
+(V v ~D v ~T) ^
+(G v N v ~I) ^
+(Q v H v ~M) ^
+(R v ~F v ~P) ^
+(V v L v ~U) ^
+(~R v N v C) ^
+(M v ~S v ~B) ^
+(Z v K v W) ^
+(~M v ~T v ~L) ^
+(I v Q v U) ^
+(~N v F v X) ^
+(T v ~F v ~R) ^
+(H v K v V) ^
+(~D v P v ~Q) ^
+(U v O v ~I) ^
+(~G) ^
+(K v B v ~Q) ^
+(~F v R v ~N) ^
+(~S v ~K v R) ^
+(B v ~K) ^
+(S v ~F v ~Y) ^
+(~S v ~K v R) ^
+(B v ~K) ^
+(S v ~F v ~Y) ^
+(~H v ~V v ~P) ^
+(~Y v O v ~V) ^
+(~C v ~G v H) ^
+(L v ~F v ~Z) ^
+(L v ~Y v ~S) ^
+(~V v ~I) ^
+(K v R v F) ^
+(D v V v ~T) ^
+(~J v ~R v ~S) ^
+(R v ~Q v X) ^
+(~I v V) ^
+(~C v ~Y v ~H) ^
+(E v ~T v S) ^
+(V v ~I v Z) ^
+(~D v J v ~Y) ^
+(M v ~D v L) ^
+(M v ~N v ~P) ^
+(~G v ~D v ~Z) ^
+(B v Z v C) ^
+(G v ~O v ~L) ^
+(O v ~X) ^
+(~F v Q v S) ^
+(P v G) ^
+(~H v A v D) ^
+(~S v ~T v ~H) ^
+(~C v J v ~Y) ^
+(~H v O v L) ^
+(~X v W) ^
+(~Q v B v ~I) ^
+(F v X v ~I) ^
+(~G v O v ~R) ^
+(J v ~K v ~F) ^
+(~W v P v F) ^
+(~Z v ~F v O) ^
+(L v ~G v ~I) ^
+(~R v W v ~T)
