@@ -10,12 +10,13 @@ CFLAGS = -O3 -std=c99 -pedantic -pedantic-errors -fno-exceptions \
 LINK = gcc
 LINKFLAGS = -Wl,-O1 -Wl,--discard-all -Wl,--no-undefined
 
-all: pltest.exe
+all: bin/pltest.exe
 
-pltest.exe: pl.o dpll.o pltest.o
+bin/pltest.exe: bin/pl.o bin/dpll.o bin/pltest.o
 	$(LINK) $(LINKFLAGS) -o $@ $^
 
-%.o: %.c
+bin/%.o: src/%.c
+	mkdir -p bin
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 clean:
